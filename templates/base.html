@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>StreakOn</title>
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='THE_APP2.png') }}">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Anton&family=Changa+One:ital@0;1&family=DM+Serif+Display:ital@0;1&family=Outfit:wght@100..900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
+            body {
+                color: rgb(255, 255, 255);
+                background-color: rgb(30, 0, 60);                
+                height: 140vh;
+            }
+
+            .container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                font-size: 18px;
+                flex-direction: column;
+                background: transparent;
+            }
+
+            .container span {
+                color: #bd5dfc;
+            }
+
+            h1 {
+                color: #bd5bff;
+                text-align: top;
+                display:flex;
+                align-items: flex-start;
+                font-size: 75px;
+                margin-bottom: 10px;
+                font-family: 'Syne', sans-serif;
+            }
+
+            h2 {
+                color: #b4c4c3;
+                font-family:'Lora', serif;
+                font-size: 40px;
+                font-style: oblique;
+                margin-top: 0;
+            }
+
+            h2 span{
+                color: #bd5bff;
+                font-family: 'Bebas Neue', cursive;
+            }
+
+            h3 {
+                display:flex;
+                color: white;
+                font-size: 24px;
+                text-align: center;
+                justify-content: center;
+                margin-top:40px;
+                align-self: center;
+                align-items: center;
+                gap: 15px; /* Spaces the button/text from the label */
+            }
+
+            .container h4 {
+                color: white;
+                font-size: 16px;
+                font-style: italic;
+                text-align: center;
+            }
+
+            p {
+                color: yellow;
+                font-size: 18px;
+                text-align: left;
+                justify-content: flex-start;
+            }
+            
+            .account-info {
+                position: fixed;
+                top:20px;
+                right: 20px;
+                z-index:10px;
+            }
+
+            .account-icon {
+                width: 43px;
+                height: 42px;
+                border-radius: 50px;
+                background-color: #1e003c;
+                border: 2px solid white;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .account-icon:hover {
+                background-color: grey;
+            }
+
+            .account-icon img {
+                height: 28px;
+                object-fit: cover;
+                font-size: 20px;
+                border-radius: 50%;
+            }
+
+            .account-dropdown {
+                display: none;
+                position: absolute;
+                top: 50px;
+                right: 0px;
+                background-color: #2a0050;
+                border: 1px solid #bd5bff;
+                border-radius: 7px;
+                min-width: 155px;
+                overflow: hidden;
+                flex-direction: column;
+            }
+
+            .account-dropdown .menu-item {
+                width: 100%;
+                background: none;
+                color: white;
+                border: none;
+                padding: 10px 14px;
+                cursor: pointer;
+                text-align: left;
+                font-family: inherit;
+                font-size: 16px;
+            }
+
+            .account-dropdown .menu-item:hover {
+                background-color: #44006d;
+            }
+
+            .account-dropdown a.menu-item {
+                display: block;
+                text-decoration: none;
+                box-sizing: border-box;
+            }
+
+            .info-panel {
+                display: none;
+                padding: 10px 14px;
+                color: #ffe066;
+                font-size: 16px;
+                border-top: 1px solid #bd5bff;
+            }
+
+            .info-panel.open {
+                display: block;
+            }
+
+            .account-dropdown .info-panel a{
+                color: #ffe066;
+                text-decoration: none;
+                font-size: 16px;
+            }
+            
+            /* Action Button Styles */
+            .challenge-btn {
+                background-color: #bd5bff; 
+                width: 160px;
+                height: 45px;
+                color: white;
+                font-family: inherit;
+                font-size: 18px;
+                font-weight: bold;
+                border: none;
+                border-radius: 25px;
+                cursor: pointer;
+                transition: transform 0.3s, background-color 0.2s;
+            }
+
+            .challenge-btn:hover {
+                background-color: #a336ff;
+                transform: scale(1.05);
+            }
+
+            /* Selected Challenge Text Style */
+            .challenge-selection {
+                background-color: rgba(255, 255, 255, 0);
+                color: #ffe066;
+                font-size: 16px;
+                text-align: center;
+                padding: 10px;
+                border-radius: 25px;
+                margin-top: 5px;
+            }
+
+        .box-challenge {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.31);
+            border-radius: 25px;
+            height: 130px;
+            width: 600px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
+                inset 0 5px 0 rgb(255, 255, 255),
+                inset 0 2px 0 rgba(255, 255, 255, 0.1),
+                inset 0 0 18px 9px rgba(0, 0, 0, 0.2);
+            height: 250px;
+        }
+
+        .box {
+            border: 1px solid grey;
+            border-radius: 25px;
+            height: 115px;
+        }
+
+        .btn-check .cta-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            left: 225px;
+            position: relative;
+            overflow: hidden;
+            width: 160px;
+            height: 45px;
+            padding: 0;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: sans-serif;
+            color: #ffffff; 
+            background: linear-gradient(to right, #bd5bff, #44006d);
+            border: 1px solid white;
+            border-radius: 25px;
+            cursor: pointer;
+            outline: none;
+            margin-top: 10px;
+            
+            box-shadow: 0 4px 10px rgba(189, 91, 255, 0.25);
+            
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
+                        box-shadow 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+                        opacity 0.3s ease;
+            }
+
+            .btn-check .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.45) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: skewX(-25deg);
+            }
+
+            .btn-check .cta-btn:not(:disabled):hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 8px 20px rgba(189, 91, 255, 0.55); 
+            }
+
+            /* Triggers the light beam across the button on hover */
+            .btn-check .cta-btn:not(:disabled):hover::before {
+            animation: sweep 0.8s ease-in-out forwards;
+            }
+
+            /* Tactile click feedback */
+            .btn-check .cta-btn:not(:disabled):active {
+            transform: translateY(1px) scale(0.98);
+            box-shadow: 0 4px 6px rgba(189, 91, 255, 0.3);
+            }
+
+            /* Disabled State Structure (Freezes hover animations during your 2-hour wait) */
+            .btn-check .cta-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            box-shadow: none;
+            }
+
+            /* Global Keyframes for the Light Sweep */
+            @keyframes sweep {
+            0% {
+                left: -150%;
+            }
+            100% {
+                left: 150%;
+            }
+            }
+
+            /* System Accessibility Override for Reduced Motion Users */
+            @media (prefers-reduced-motion: reduce) {
+            .btn-check .cta-btn, 
+            .btn-check .cta-btn::before {
+                transition: none !important;
+                animation: none !important;
+            }
+            }
+
+            .challenge-streak {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 30px;
+                position: relative;
+                left: 305px;
+                margin-top: 20px;
+            }
+
+            .streak-display {
+                background: transparent;
+                color: white;
+                padding: 10px;
+                border-radius: 15px;
+                border: 1px solid white;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.2),
+                inset 0 0 5px rgba(255, 255, 255, 0.1),
+                inset 2px 0px 1px #bd5bff;
+                ;
+                backdrop-filter: blur(12px);
+                ;
+                width: 155px;
+            }
+
+            .streak-count {
+                font-size: 2.5rem;
+                font-weight: bold;
+                color: #bd5bff;
+                border: 1px solid white;
+            }
+
+            .streak-label {
+                display: block;
+                text-align: center;
+                color: yellow;
+            }
+
+            .xp-display {
+                background: transparent;
+                color: yellow;
+                padding: 10px;
+                border-radius: 15px;
+                border: 1px solid white;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.2),
+                inset 0 0 5px rgba(255, 255, 255, 0.1),
+                inset 2px 0px 1px #bd5bff;
+                ;
+                backdrop-filter: blur(12px);
+                ;
+                width: 155px;
+            }
+
+            .xp-label {
+                font-size: 1.2rem;
+                font-weight: bold; 
+                color: white;
+                border: 1px solid white;
+                height: 50px;
+                color: yellow;
+            }
+
+            .xp-count {
+                font-size: 1.5rem;
+                font-weight: bold;
+                display: block;
+                text-align: center;
+                color: white;
+            }
+
+            .day_completed {
+                background: transparent;
+                padding: 10px;
+                border-radius: 15px;
+                border: 1px solid white;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.2),
+                inset 0 0 5px rgba(255, 255, 255, 0.1),
+                inset 2px 0px 1px #bd5bff;
+                ;
+                backdrop-filter: blur(12px);
+                ;
+                width: 155px;
+                height: 165px;
+            
+            }
+
+            .day_completed_count {
+                font-size: 2.5rem;
+                font-weight: bold;
+                color: #bd5bff;
+                border: 1px solid white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 50px;
+                text-decoration: none;
+            }
+
+            .day_completed_count a {
+                text-decoration: none;
+                color: #bd5bff;
+            }
+
+            .day_completed_label {
+                display: block;
+                text-align: center;
+                color: yellow;
+
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>StreakOn</h1>
+            <h2>Welcome, <span>{{username}}!</span></h2>
+            <h4>Today's Discipline, Tomorrow's Success</h4>
+            
+            <!-- This is your main challenge box wrapper -->
+            <div class="box-challenge">
+                <div class="box">
+                    <h3>Today's Challenge:
+                        <span id="challenge-box">
+                            <button class="challenge-btn" id="reveal-btn" onclick="generateChallenge()">Reveal</button>
+                        </span>
+                    </h3>
+                </div>
+                <div class="btn-check">
+                    <button id="myButton" class="cta-btn"disabled>Wait 2 Hours</button>
+                </div>
+
+                <div class="next-challenge">
+                    <h3 id="countdown-timer">Next Challenge In: --:--:--</h3>
+                </div>
+            </div>
+            
+        </div>
+
+
+        <div class="account-info">
+            <div class="account-icon" onclick="toggleDropdown()">
+                <img src="{{ url_for('static', filename='Account.png') }}" alt="Account">
+            </div>
+
+            <div class="account-dropdown" id="accountDropdown">
+                <a class="menu-item" href="/profile">Account</a>
+
+                <button class="menu-item" onclick="togglePanel('panel-stats')">Stats</button>
+                <div class="info-panel" id="panel-stats"><a href='/challenge'>Challenges completed, current streak.</a></div>
+
+                <button class="menu-item" onclick="togglePanel('panel-plan')">Plan</button>
+                <div class="info-panel" id="panel-plan">Pricing plan info coming soon</div>
+
+                <div class="info-panel" id="panel-logout"><a href='/logout' >Log out</a></div>
+                <button class="menu-item" onclick="window.location.href='/logout'">Logout</button>
+            </div>
+        </div>
+
+        <div class="challenge-streak">
+                <div class="streak-display">
+                    <h3 class="streak-count">{{current_streak}}</h3>
+                    <p class="streak-label">Day Streak </p>
+                </div>
+        
+            <div class="xp-display">
+                <h3 class="xp-label">XP</h3>    
+                <p class="xp-count">{{ xp }}</p>
+            </div>    
+
+            <div class="day_completed">
+                <h3 class="day_completed_count"> 
+                    <a href="{{ url_for('challenges') }}">{{ days_completed }}</a>
+                </h3>
+                <p class="day_completed_label">Challenges Completed </p>
+                
+        </div>
+
+        
+
+        <script>
+        const revealedAt = {{ revealed_at | tojson }};
+        const completed = {{ completed | tojson }};
+        const TWO_HOURS = 2 * 60 * 60 * 1000;
+
+        const challenges = [
+            'The Morning Media Fast: Do not check any notifications, news, or entertainment apps for the first 90 minutes of your day.',
+            'Workplace Monotasking: Pick a 3-hour window today to work or study with only one tab or application open at a time.',
+            'No-Screen Meals: Eat every meal today in complete silence or conversation—absolutely no phone, TV, or laptop screens allowed.',
+            'The 3-Hour App Block: Delete your most addictive social media or entertainment app for a minimum of 3 hours during peak productivity time.',
+            'Screenless Commute/Walk: Walk or commute today without listening to music, podcasts, or checking your phone. Pay full attention to your surroundings.',
+            'Zero Notifications: Turn off all notifications except direct phone calls for the entire day. Check messages only on your own terms.',
+            'The Evening Tech Curfew: Power down your phone, laptop, and television at least 60 minutes before you go to bed.',
+            'No Digital Escapism: Spend the next 4 hours resisting the urge to check your phone whenever you experience a moment of boredom or waiting.',
+            'Desktop Cleandown: Sort every single file on your computer desktop into organized folders, delete the junk, and empty the recycle bin.',
+            'The Unsubscribed Inbox: Spend 20 minutes manually unsubscribing from newsletters, promos, and spam emails until your inbox feels clean.',
+            'Black and White Phone: Switch your phone\u2019s display settings to grayscale for the entire day to drastically reduce its visual appeal.',
+            'The 30-Minute Quiet Sit: Sit on a chair for 30 minutes with absolutely no background noise, background music, or digital stimulation.',
+            'App Inventory Audit: Go through your smartphone and delete at least 15 apps that you haven\u00b4t opened in the last 30 days.',
+            'No Side-Streaming: Work, study, or complete chores today without any background videos, TV shows, or streams running.',
+            'The Deep Focus Sprint: Set a timer and work on a single, high-priority project for 90 continuous minutes without a single interruption.',
+            'No Mindless Scrolling: Set your phone\u00b4s screen time limit to a maximum of 15 minutes for all social media platforms today.',
+            'Manual Data Back-up: Spend 30 minutes moving your important personal documents and photos to a secure hard drive or cloud backup system.',
+            'The Screenless Evening: Dedicate the entire night after 7:00 PM to offline activities like reading, cooking, or talking to family.',
+            'Organize 1,000 Files: Go into your cloud storage or local documents and systematically sort, tag, or delete files for 30 minutes straight.',
+            'Phone in Another Room: Keep your phone physically located in a different room or inside a closed drawer for 4 hours while you work.',
+            'The Single-Tab Sprint: Spend 2 hours studying or working with literally only one browser tab open.',
+            'No-Swipe Transit: Commute, walk, or wait in line today without once unlocking your phone.',
+            'The 5 PM Tech Blackout: Power down all personal screens at 5:00 PM and do not turn them back on until tomorrow.',
+            'No-App Morning: Do not open any entertainment, news, or social media apps before 10:00 AM.',
+            'Grayscale Weekday: Keep your phone\u2019s display settings in black-and-white mode for 24 continuous hours.',
+            'Social Media Lockbox: Delete your top two most addictive social media apps for the next 24 hours.',
+            'Out-of-Sight Focus: Work, study, or read for 4 hours with your phone locked in another room entirely.',
+            'The Audio-Free Walk: Walk outside for 30 minutes with absolutely no music, podcasts, or phone calls.',
+            'The One-Device Day: Use only one primary device (e.g., your laptop) for all essential digital communication; no touching your phone.',
+            'Silent Notification Challenge: Turn off all vibration and sound alerts on your phone for 48 hours.',
+            'Analog Entertainment: Spend the entire evening (post-6:00 PM) reading a physical book or playing a physical board game.',
+            'The 30-Minute Silence Sit: Sit upright in a chair for 30 minutes with absolute silence and zero screens.',
+            'Inbox Clean Sweep: Spend 30 uninterrupted minutes archiving, filing, or deleting old emails to hit Inbox Zero.',
+            'Unsubscribe Marathon: Find and manually unsubscribe from 30 promotional email lists in one sitting.',
+            'No Mindless Searching: Go 4 hours without looking up random, non-essential thoughts that pop into your head.',
+            'App Diet: Uninstall every single app you haven\u00b4t opened in the last 30 days (minimum of 10 apps).',
+            'Manual Backup: Spend 45 minutes organizing and backing up important files to an external hard drive or cloud system.',
+            'The No-Sugar Day: Go an entire 24 hours without consuming any added sugars, sweets, or soda.',
+            'The Cold Finish: End your daily shower with a mandatory 2-minute blast of pure cold water.',
+            'Hydration First: Drink a full, large glass of water immediately upon waking, before touching anything else.',
+            'The No-Snacking Window: Eat only designated, planned meals today; absolutely zero snacking in between.',
+            'Posture Patrol: Set an hourly alarm and spend 5 minutes correcting your posture every time it rings.',
+            'The 10k Step Quest: Complete exactly 10,000 steps today, regardless of the weather.',
+            'Stretch Before Bed: Spend 15 minutes stretching your body before sleeping, without any music or TV.',
+            'No Caffeine After Noon: Cut off all coffee, energy drinks, or caffeinated teas by 12:00 PM.',
+            'The From-Scratch Day: Cook or prepare every single thing you consume today using whole ingredients.',
+            'No Elevator Day: Take the stairs every single time you encounter an elevator or escalator today.',
+            'The Floor Sit: Spend at least 30 minutes of your leisure/reading time sitting on the floor instead of a couch.',
+            'The 20-Minute Slow Chew: Take a minimum of 20 minutes to finish your lunch, chewing slowly and mindfully.',
+            'No Liquid Calories: Consume only water, black coffee, or unsweetened tea for the next 24 hours.',
+            'The Daily Mile: Walk or run a continuous mile today, focusing entirely on rhythmic breathing.',
+            'Core Strength Hold: Hold a plank for a total cumulative time of 5 minutes today (broken into sets as needed).',
+            'Sunlight First: Step outside and get direct sunlight on your face for 10 minutes within 30 minutes of waking.',
+            'Zero Caffeine Day: Go the entire day without any form of caffeine.',
+            'No Late Eating: Do not consume any food or caloric drinks within 3 hours of going to sleep.',
+            'Active Breaks: For every 45 minutes of sitting, stand up and do 2 minutes of jumping jacks or air squats.',
+            'The Pomodoro Quad: Complete four back-to-back 25-minute Pomodoro focus sessions with zero interruptions.',
+            'Deep Work Block: Set aside a 90-minute block for your hardest task with all communication apps closed.',
+            'The 3-Task Limit: Write down only 3 critical tasks for the day and refuse to do anything else until they are finished.',
+            'No-Multitasking Hour: Work on one single task for an hour; if you switch tasks or check your phone, the timer resets.',
+            'The First-Thing Focus: Work on your most difficult project for 45 minutes before checking your email or messages.',
+            'Minimalist Workspace: Clear your physical desk of everything except your laptop, notebook, and a pen before starting work.',
+            'The Pen & Paper Plan: Plan your entire day on a physical sheet of paper instead of a digital calendar.',
+            'The No-Complaint Workday: Go the entire working or school day without complaining out loud about any task.',
+            'Double the Buffer: Estimate how long a task will take, then force yourself to work at a steady, unhurried pace to finish it in exactly that time.',
+            'The Study Silence: Study for 2 hours in complete silence—no music, no lo-fi beats, no ambient noise.',
+            'Immediate Action: The next time you think "I should do [chore/task]", do it within 5 seconds without negotiating with yourself.',
+            'The 10-Minute Early Rule: Arrive or log in to all your scheduled classes or meetings exactly 10 minutes early today.',
+            'The Clear-Out Study: Clean and organize your study space thoroughly before starting your first task.',
+            'No-Snooze Morning: Place your alarm clock across the room and stand up immediately when it goes off.',
+            'The Book Summary: Read one educational chapter and write a concise, one-page summary from memory.',
+            'The 1-Hour No-Speak: Spend 1 hour in shared spaces without speaking a single word, focusing entirely on observation.',
+            'The Hardest First: Tackle your absolute most dreaded task of the week first thing in the morning.',
+            'Zero Unfinished Tasks: Finish every minor task you start today (e.g., closing tabs, putting away tools) immediately.',
+            'The Do-Not-Disturb Zone: Inform others you are unavailable for 2 hours and dedicate that time to pure focus.',
+            'Skill Drill: Spend 45 uninterrupted minutes practicing a difficult technical skill (coding, drawing, language, instrument).'
+        ];
+
+        function getChallengeText() {
+            const targetDate = new Date();
+            if (targetDate.getHours() < 6) {
+                targetDate.setDate(targetDate.getDate() - 1);
+            }
+            const seed = targetDate.getFullYear() * 10000 + (targetDate.getMonth() + 1) * 100 + targetDate.getDate();
+            return challenges[seed % challenges.length];
+        }
+
+        function renderChallengeText(text) {
+            document.getElementById('challenge-box').innerHTML = `<span class="challenge-selection">${text}</span>`;
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            
+            const dawnTarget = new Date();
+            dawnTarget.setHours(6, 0, 0, 0); 
+
+            if (now >= dawnTarget) {
+                dawnTarget.setDate(dawnTarget.getDate() + 1);
+            }
+            
+            const msRemaining = dawnTarget - now;
+
+            const hours = Math.floor(msRemaining / (1000 * 60 * 60));
+            const minutes = Math.floor((msRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((msRemaining % (1000 * 60)) / 1000);
+
+            const pad = (num) => String(num).padStart(2, '0');
+
+            const timerElement = document.getElementById('countdown-timer');
+            if (timerElement) {
+                timerElement.innerText = `Next Challenge In: ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+            }
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        function checkLockStatus(revealedAtTimestamp, doneButton) {
+            const parsedRevealedAt = new Date(revealedAtTimestamp).getTime();
+            const msElapsed = Date.now() - parsedRevealedAt;
+
+            if (msElapsed < TWO_HOURS) {
+                doneButton.disabled = true;
+                doneButton.innerText = "Wait 2 Hours";
+                setTimeout(function() {
+                    doneButton.disabled = false;
+                    doneButton.innerText = "Mark as Done";
+                }, TWO_HOURS - msElapsed);
+            } else {
+                doneButton.disabled = false;
+                doneButton.innerText = "Mark as Done";
+            }
+        }
+
+        function generateChallenge() {
+    // 1. Fetch backend route to save the revealed timestamp in your database/session
+    fetch('/reveal', { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                // 2. Hide the reveal button
+                document.getElementById("reveal-btn").style.display = "none";
+
+                // 3. Display the challenge text
+                renderChallengeText(getChallengeText());
+
+                // 4. Show the wait/done button and start the 2-hour lock check
+                const doneBtn = document.getElementById("myButton");
+                doneBtn.style.display = "block";
+                
+                // Set the initial revealedAt timestamp from the server response
+                checkLockStatus(data.revealed_at, doneBtn);
+            } else {
+                alert(data.error || "Failed to reveal challenge.");
+            }
+        })
+        .catch(err => {
+            console.error("Error revealing challenge:", err);
+        });
+}
+        function initPage() {
+            const doneBtn = document.getElementById("myButton");
+
+            if (revealedAt === null) {
+                doneBtn.style.display = "none";
+            } else {
+                document.getElementById("reveal-btn").style.display = "none";
+                doneBtn.style.display = "block";
+                renderChallengeText(getChallengeText());
+                if (completed) {
+                    doneBtn.innerText = "Done ✓";
+                    doneBtn.disabled = true;
+                } else {
+                    checkLockStatus(revealedAt, doneBtn);
+                }
+            }
+        }
+
+        initPage();
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('accountDropdown');
+            dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function togglePanel(panelId) {
+            document.querySelectorAll('.info-panel').forEach(panel => {
+                panel.classList.toggle('open', panel.id === panelId && !panel.classList.contains('open'));
+            });
+        }
+
+        document.addEventListener('click', function(event) {
+            const accountInfo = document.querySelector('.account-info');
+            if (accountInfo && !accountInfo.contains(event.target)) {
+                document.getElementById('accountDropdown').style.display = 'none';
+            }
+        });
+        </script>
+
+    </body>
+</html>

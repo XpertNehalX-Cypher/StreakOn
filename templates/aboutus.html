@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us — The App</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='THE_APP2.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: rgb(30, 0, 60);
+            --accent: #c084fc;
+            --white: #F5F0F8;
+            --muted: #a78bba;
+            --glass-bg: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.12);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .links {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            background: rgba(30, 0, 60, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border);
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 60px;
+            z-index: 100;
+        }
+
+        .links h3 {
+            color: var(--white);
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .links-right {
+            display: flex;
+            gap: 30px;
+        }
+
+        .links a {
+            color: #E8D8B0;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .links a:hover { opacity: 1; }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 40px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(192, 132, 252, 0.12) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            font-family: 'Syne', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(48px, 8vw, 96px);
+            font-weight: 800;
+            line-height: 1.0;
+            color: var(--white);
+            margin-bottom: 32px;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero-sub {
+            font-size: 18px;
+            color: var(--muted);
+            max-width: 520px;
+            line-height: 1.8;
+        }
+
+        .divider {
+            width: 1px;
+            height: 80px;
+            background: linear-gradient(to bottom, transparent, var(--glass-border), transparent);
+            margin: 0 auto;
+        }
+
+        .section {
+            padding: 100px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+
+        .section p {
+            font-size: 17px;
+            color: var(--muted);
+            line-height: 1.9;
+            max-width: 680px;
+        }
+
+        .mission-card {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .mission-inner {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-inner::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        .mission-quote {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(22px, 3vw, 32px);
+            font-weight: 700;
+            line-height: 1.4;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+
+        .mission-quote span {
+            color: var(--accent);
+        }
+
+        .mission-body {
+            font-size: 16px;
+            color: var(--muted);
+            line-height: 1.9;
+            max-width: 600px;
+        }
+
+        .team-section {
+            padding: 100px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .team-section .section-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .team-section h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 48px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .team-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            transition: border-color 0.3s, transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-card:hover {
+            border-color: rgba(192, 132, 252, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .team-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .team-card:hover::after { opacity: 1; }
+
+        .team-role {
+            font-family: 'Syne', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .team-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+
+        .team-desc {
+            font-size: 15px;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 24px;
+            padding: 0 40px;
+            max-width: 900px;
+            margin: 60px auto 100px;
+        }
+
+        .stat-box {
+            flex: 1;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px 32px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Syne', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--muted);
+            letter-spacing: 1px;
+        }
+
+        footer {
+            border-top: 1px solid var(--glass-border);
+            padding: 40px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        footer span { color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <div class="links">
+        <h3>THE APP</h3>
+        <div class="links-right">
+            <a href="/login">Login</a>
+            <a href="{{url_for('index')}}">Home</a>
+            <a href="/aboutus">About Us</a>
+        </div>
+    </div>
+
+    <section class="hero">
+        <p class="hero-eyebrow">Our Story</p>
+        <h1>One Challenge.<br><span>Every Day.</span><br>Together.</h1>
+        <p class="hero-sub">We built this because consistency is the hardest thing to maintain alone — so we made it a shared experience.</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="section">
+        <p class="section-label">What Is StreakOn</p>
+        <h2>Not a suggestion.<br>A commitment.</h2>
+        <p>Every day at midnight, everyone gets the same challenge. Whether it's 50 pushups, a cold shower, or writing three things you're grateful for — you either did it or you didn't. No excuses. No personal bests only you can see. Everyone, same challenge, same day.</p>
+    </section>
+
+    <div class="mission-card">
+        <div class="mission-inner">
+            <p class="mission-quote">We're not a fitness app.<br>We're not a productivity app.<br><span>We're a consistency app.</span></p>
+            <p class="mission-body">Small daily actions compound into real change — and doing them alongside thousands of others makes them stick. The App exists to close the gap between who you are and who you want to be, one day at a time.</p>
+        </div>
+    </div>
+
+    <section class="section">
+        <p class="section-label">Why We Built It</p>
+        <h2>We got tired of<br>starting things.</h2>
+        <p>Both of us had notebooks full of goals, apps full of todos, and a track record of quitting by week two. StreakOn was built out of frustration with ourselves — and a belief that if other people were doing the same thing as you, skipping would feel very different.</p>
+    </section>
+
+    <section class="team-section">
+        <p class="section-label">The Team</p>
+        <h2>Two friends.<br>One obsession.</h2>
+        <div class="team-grid">
+            <div class="team-card">
+                <p class="team-role">Founder & Developer</p>
+                <p class="team-name">Nehal</p>
+                <p class="team-desc">Handles everything that runs — the code, the design, the late nights debugging things that should not need debugging. Built StreakOn from scratch because he believed the idea was worth it.</p>
+            </div>
+            <div class="team-card">
+                <p class="team-role">Co-Founder & Vision</p>
+                <p class="team-name">Yuxuan</p>
+                <p class="team-desc">The ideas guy. The honest feedback. The person who tells you when something is not good enough and actually means it. Most of what makes StreakOn feel right came from a conversation with him.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="stats-row">
+        <div class="stat-box">
+            <p class="stat-number">1</p>
+            <p class="stat-label">Challenge per day</p>
+        </div>
+        <div class="stat-box">
+            <p class="stat-number">24h</p>
+            <p class="stat-label">To complete it</p>
+        </div>
+        <div class="stat-box">
+            <p class="stat-number">∞</p>
+            <p class="stat-label">Reasons to show up</p>
+        </div>
+    </div>
+
+    <footer>
+        Built with intent by <span>Nehal & Yuxuan</span> — StreakOn &copy; 2025
+    </footer>
+
+</body>
+</html>

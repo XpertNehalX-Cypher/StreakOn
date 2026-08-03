@@ -1,0 +1,14 @@
+# Exclude SQLite Database
+*.db
+users.db
+
+# Exclude secrets
+.env
+
+# Exclude user data folders
+users/
+users1/
+
+# Exclude Python cache
+__pycache__/
+*.pyc

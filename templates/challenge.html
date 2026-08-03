@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='THE_APP2.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>My Challenges</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: rgb(30, 0, 60); 
+            font-family: 'Inter', sans-serif;
+            padding: 30px 20px;
+            color: white;
+        }
+
+        body h2 {
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8rem;
+            margin-top: 30px;
+        }
+
+        /* Main Grid Container for equal heights */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: stretch; 
+            gap: 40px;
+            max-width: 1170px;
+            margin: 30px;
+        }
+
+        .box-left, .box-right {
+            flex: 1;
+            background: #000000;
+            border-radius: 25px;
+            padding: 25px;
+            border: 3px solid #8800ff;
+            backdrop-filter: blur(17px);
+            -webkit-backdrop-filter: blur(17px);
+            transition: transform 0.34s ease, border-color 0.34s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 480px; /* Standard baseline height */
+            color: #ffe81b;
+        }
+
+        .box-left:hover, .box-right:hover {
+            border: 4px solid transparent;
+            border-image: linear-gradient(to right, #8a8bc1, #7c31d1) 1;
+            border-radius: 30px;
+            transform: translateY(-4px);
+        }
+
+        .box-left h1 {
+            color: #54ff93;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.4rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .box-right h1 {
+            color: #ffe066;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.4rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* Calendar Styling */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr); 
+            gap: 8px; 
+            background: #121212; 
+            padding: 18px;
+            border-radius: 20px;
+            text-align: center;
+            flex-grow: 1;
+            align-content: start;
+            color: #ffe81b;
+        }
+
+        .weekday {
+            color: #a0a0a0; 
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding-bottom: 8px;
+        }
+
+        .day {
+            aspect-ratio: 1; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff; 
+            font-size: 0.85rem;
+            border-radius: 25%; 
+            background-color: #222222;
+        }
+
+        .day.completed {
+            background-color: #2ecc71; 
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .day.revealed {
+            background-color: transparent;
+            border: 2px solid #ffe066;
+            color: #ffe066;
+        }   
+
+        .day.empty {
+            visibility: hidden;
+        }
+
+        /* Streak Visual Layout */
+        .streak-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            gap: 15px;
+        }
+
+        .streak-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .streak-count {
+            background: linear-gradient(to right, #ffe066,  #ffffff, #ffe066);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .streak-number {
+            color: white;
+            font-size: 3.5rem;
+            font-weight: 800;
+            font-family: 'Syne', sans-serif;
+            display: block;
+            text-align: center;
+        }
+
+        .streak-icon {
+            height: 150px;
+            width: auto;
+            object-fit: contain;
+
+        }
+
+        .streak-grid {
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid #222;
+            width: 100%;
+        }
+
+        .streak-grid p {
+            color: #ffe81b;
+            font-size: 0.95rem;
+        }
+
+        .navboard {
+            display: flex;
+            background-color: rgb(49, 18, 79);
+            justify-content: space-between;
+            padding: 5px 40px;
+            backdrop-filter: blur(12px);
+            box-sizing: border-box;
+            height: 30px;
+            width:100%;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            position: fixed;
+            gap: 20px;
+            border: 1px solid #222;
+            border-bottom: 2px solid black;
+            border-top: 2px solid black;
+            border-radius: 2px;
+
+        }
+        .navboard a  {
+            color: #ffe81b;
+            font-size: 16px;
+            text-decoration: none;
+            gap: 20px;
+            font-family: 'Syne', sans-serif;
+            font-style: italic;
+        }
+
+         .month-nav{ 
+            font-size: 18px;
+            text-decoration: none;
+            color: rgb(255, 255, 255);
+         
+        }
+
+        month-nav a {
+            color: rgb(244, 1, 228);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 21px;
+        }
+
+        .month-arrow disabled {
+            color: rgb(244, 1, 228);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 51px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navboard">
+            <a href="{{ url_for('base') }}">Home</a>
+        </div>
+
+    <h2>Here Are Your Daily Completed Challenges</h2>
+
+    <div class="container">
+        <!-- Left Box: Calendar -->
+        <div class="box-left">
+
+            <div class="month-nav">
+                {% if can_go_prev %}
+                    <a href="{{ url_for('challenges', year=prev_year, month=prev_month) }}" class="month-arrow">‹</a>
+                {% else %}
+                    <span class="month-arrow disabled">‹</span>
+                {% endif %}
+
+                <span class="month-label">{{ "%04d-%02d"|format(current_year, current_month) }}</span>
+
+                {% if can_go_next %}
+                    <a href="{{ url_for('challenges', year=next_year, month=next_month) }}" class="month-arrow">›</a>
+                {% else %}
+                    <span class="month-arrow disabled">›</span>
+                {% endif %}
+            </div>
+            <h1>Challenges Completed</h1>
+            <div class="calendar-grid">
+                <div class="weekday">S</div>
+                <div class="weekday">M</div>
+                <div class="weekday">T</div>
+                <div class="weekday">W</div>
+                <div class="weekday">T</div>
+                <div class="weekday">F</div>
+                <div class="weekday">S</div>
+
+                <!-- Empty grid slots for Sunday alignment -->
+                {% for _ in range(first_weekday) %}
+                    <div class="day empty"></div>
+                {% endfor %}
+
+                <!-- Days of the month -->
+                {% for day in range(1, num_days + 1) %}
+                    {% set date_str = "%04d-%02d-%02d"|format(current_year, current_month, day) %}
+                    {% set status_class = "" %}
+                    {% if date_str in activity_map %}
+                        {% if activity_map[date_str] == 1 %}
+                            {% set status_class = " completed" %}
+                        {% elif activity_map[date_str] == 0 %}
+                            {% set status_class = " revealed" %}
+                        {% endif %}
+                    {% endif %}
+
+                    <div class="day{{ status_class }}">{{ day }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Right Box: Streak -->
+        <div class="box-right">
+            <h1>Streak</h1>
+            <div class="streak-content">
+                <div class="streak-display">
+                    <p class="streak-count">Current Streak</p>
+                    <span class="streak-number">{{ current_streak }}</span>
+                </div>
+                <img class="streak-icon" src="{{ url_for('static', filename='streak1.png') }}" alt="Streak Flame">
+            </div>
+            <div class="streak-grid">
+                <p>All-Time Best Streak: <strong>{{ best_streak }}</strong></p>
+            </div>
+        </div>
+    </div> 
+
+</body>
+</html>

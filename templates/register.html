@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Register Form</title>
+         <link rel="icon" type="image/png" href="{{ url_for('static', filename='THE_APP2.png') }}">
+        <style>
+            body {
+            background-color: #123524 ;
+            color:rgb(20, 34, 65);
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            text-align: center;
+            }
+
+            .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 110vh;
+            justify-content: center;
+            }
+
+            .form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: white;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #1a3829;
+            }
+
+            form  {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            color: white;
+            
+            }
+
+            input, button {
+            padding: 10px;
+            border-radius: 30px;
+            color: white;
+            font-size: 18px;
+            }
+            
+            h1 {
+                color: white;
+                font-size: 40px;
+            }
+
+            p {
+                color: white;
+                font-size: 18px;
+            }
+
+            a {
+                color: pink;
+                font-size: 18px;
+            }
+        </style>
+    </head>
+        <body>
+            <div class = 'container'>
+                <div class = 'form'>
+                    <h1>Register</h1>
+                    <form action="/register" method="post">
+                        <input type="text" style="background:transparent" name="username" placeholder="Username">
+                        <input type="email" style="background:transparent" name="email" placeholder="Email">
+                        <input type="password" style="background:transparent" name="password" placeholder="Password">
+                        <input type="date" style="background:transparent" name="date_of_birth" placeholder="Date Of Birth">
+                        <input type="text" style="background:transparent" style="background-color:rgb(255, 255, 255)" name="gender" placeholder="Gender">
+                        <button type="submit" style="background:#758dc1">Register</button>
+
+                        <p>Already have an account? <a href='/login'>Login</a></p>
+                    </form>
+            </div>
+        </body>
+</html>

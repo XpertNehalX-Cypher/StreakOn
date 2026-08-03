@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='THE_APP2.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>StreakOn</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Changa+One:ital@0;1&family=DM+Serif+Display:ital@0;1&family=Outfit:wght@100..900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
+        body {
+            color: white;
+            background-color: rgb(30, 0, 60);
+            height: 90vh;
+            margin: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .icons {
+            scroll-margin-top: 110px;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            z-index: 100;
+            box-sizing: border-box;
+        }
+
+        .links h3 {
+            color: white;
+            margin: 0;
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: "DM Serif Display", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .links h3 span {
+            color: rgb(152, 189, 51);
+        }
+
+        .links a {
+            color: #E8D8B0;
+            text-decoration: none;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            opacity: 0.85;
+            transition: opacity 0.2s;
+        }
+
+        .links a:hover {
+            opacity: 1;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            padding-top: 60px;
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+
+        /* Hero Section Layout Updated to Row */
+        .container-box {
+            display: flex;
+            flex-direction: row; /* Arranges text on left, image on right */
+            align-items: center;
+            justify-content: space-between;
+            background: transparent;
+            backdrop-filter: blur(17px);
+            -webkit-backdrop-filter: blur(17px);
+            padding: 25px;                
+            margin-top: 50px;
+            gap: 40px;
+            transition: all 0.25s ease-in-out;        
+        }
+        
+        .container-box:hover {
+            background: transparent;
+            transform: scale(1.01);
+        }
+
+        .hero-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .container-box span {
+            color: #bd5bff;
+            font-style: bold;
+            font-family: 'Rajdhani', sans-serif;
+            text-shadow: 
+            0 0 30px rgba(97, 118, 82, 0.9),   
+            0 0 40px rgba(152, 125, 186, 0.811);
+            backdrop-filter: blur(10px);
+        }
+
+        .container-box p span {
+            color: #bd5bff;
+            font-size: 28px;
+            font-family: 'Syne', sans-serif;
+            text-shadow: None;
+            backdrop-filter: None;
+        }
+
+        .span-24-hours {
+            color: #bd5bff;
+            font-size: 28px;
+            font-family: 'Bebas Neue', cursive;
+            font-style: bold;
+            text-shadow: None;
+            backdrop-filter: None;
+            animation: blink 1s infinite;
+            -webkit-animation: blink 1s infinite;
+        }
+
+        .container-box button {
+            background-color: #5badff;
+            border: 1px solid white;
+            width: 140px;
+            height: 40px;   
+            border-radius: 5px;
+            color: black;
+            padding: 10px 20px;
+            text-align: center;
+            align-items: flex-start;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .container-box a {
+            text-align: center;
+            align-items: center;
+            display: flex;
+            color: white;
+            background-color: black;
+            border: 1px solid white;
+            width: 140px;
+            height: 40px;   
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 3px;
+            font-family: 'Rajdhani', sans-serif;
+            justify-content: center; 
+        }
+
+        h1 {
+            color: white;
+            font-size: 40px;
+            font-family: 'Syne', sans-serif;
+            margin: 0 0 15px 0;
+            transition: all 0.25s ease-in-out;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 15px;
+        }
+
+        p {
+            color: #E6DDF0;
+            font-size: 25px;
+            text-align: left;
+            font-family: 'Bebas Neue', cursive;
+            margin: 0;
+        }
+
+        /* Right Side Hero Image Styling */
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 450px; /* Adjust size as needed */
+            height: auto;
+            border-radius: 300px; /* Optional rounded corners */
+            object-fit: cover;
+            border: 1px solid #8510a2;
+        }
+
+        .icons {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-top: 100px;
+            gap: 100px;
+        }
+
+        .icon-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .icon-card img {
+            border-radius: 50%;
+            object-fit: cover;
+            width: 220px;
+            height: 220px;
+        }
+
+        .cards-row {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+            padding: 0 40px;
+        }
+
+        .info-card {
+            background-color: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            padding: 36px;
+            width: 280px;
+            text-align: center;
+            backdrop-filter: blur(17px);
+        }
+
+        .info-card h2 {
+            color: #bd5bff;
+            font-size: 40px;
+            margin-top: 10px;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .info-card p {
+            color: #E6DDF0;
+            font-size: 20px;
+            font-family: 'Syne', sans-serif;
+            font-weight: 400;
+            margin-bottom: 10px;
+            font-style: oblique;
+            text-align: center;
+        }
+
+        .info-card span {
+            color: #bd5bff;
+            font-size: 20px;
+            font-family: 'Syne', sans-serif;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            color: #bd5bff;
+            text-align: center;
+            padding: 40px 0;
+            margin-top: s50px;
+        }
+
+        .btn-send {
+            background-color: #5badff;
+            border: 1px solid transparent;
+            width: 140px;
+            height: 40px;   
+            border-radius: 50px;
+            color: black;
+            padding: 10px 20px;
+            text-align: center;
+            align-items: flex-start;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-send:hover {
+            background: linear-gradient(to right, #5badff, #4a8bff, #6693c0);
+            border: 1px solid #4a8bff;
+            color: white;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="links">
+        <h3>StreakOn</h3>
+        <div style="display:flex; gap:30px;">
+            <a href="/login">Login</a>
+            <a href="/aboutus">About Us</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="container-box">
+            <div class="hero-text">
+                <h1>Welcome to <span>StreakOn</span></h1>
+                <p>Every day at <span>6:00 AM</span>, a new challenge drops. <br>Everyone gets the same challenge,<br>
+                and everyone has <span class="span-24-hours">24 hours</span> to complete it. Finish it, log it,<br>
+                and keep your streak alive. Miss a day, and your streak resets.<br>
+                Discipline isn't something you're born with. <br>It's something you build,<br>
+                one day at a time.
+                </p>
+<div class="hero-actions">
+                    <button onclick="window.location.href='{{ '/base' if logged_in else '/login' }}'" class="btn-send">Let's Go</button>
+                    <a href="#icons">Learn more</a>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <img src="{{ url_for('static', filename='Hero-Image2.png')}}" alt="Hero Image">
+            </div>
+        </div>
+    
+        <div class="icons" id="icons">
+            <div class="icon-card">
+                <img src="{{ url_for ('static', filename='THE_APP1.png')}}" alt="Logo">
+                <p>Join Us!</p>
+            </div>
+            <div class="icon-card">
+                <img src="{{ url_for ('static', filename='Pushups.png')}}" alt="Logo">
+                <p>Participate in Daily Challenges</p>
+            </div>
+            <div class="icon-card">
+                <img src="{{ url_for ('static', filename='Streak.png')}}" alt="Logo">
+                <p>Earn Streak!</p>
+            </div>
+        </div>
+    </div>
+        
+    <div class="cards-row">
+        <div class="info-card">
+            <h2>Join Us</h2>
+            <p>Log in to StreakOn</p>
+            <p>Every midnight at 12</p>
+            <p><span>A new challenge awaits</span></p>
+            <button onclick="window.location.href='{{ '/base' if logged_in else '/login' }}'" class="btn-send">Let's Go</button>
+        </div>
+        <div class="info-card">
+            <h2>Participate</h2>
+            <p>Get your daily challenge</p>
+            <p>Compete online for streak</p>
+            <p><span>24 hours to do it</span></p>
+            <button onclick="window.location.href='{{ '/base' if logged_in else '/login' }}'" class="btn-send">Ready</button>
+        </div>
+        <div class="info-card">
+            <h2>Streak</h2>
+            <p>Build your daily streak</p>
+            <p>Don't break the chain</p>
+            <p><span>Show up every single day</span></p>
+            <button onclick="window.location.href='{{ '/challenge' if logged_in else '/login' }}'" class="btn-send">Streak</button>
+        </div>
+    </div> 
+
+    <footer>
+        <div class="footer">
+            <p>&copy; StreakOn 2026</p>
+        </div>
+    </footer>
+
+</body>
+</html>

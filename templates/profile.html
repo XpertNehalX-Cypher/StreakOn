@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='THE_APP2.png') }}">
+    <style>
+        :root {
+            --bg: #141416;
+            --card-bg: #1e1f24;
+            --border: #2e3038;
+            --text-main: #f0f0f2;
+            --text-muted: #8b8d97;
+            --accent: #8fb8ff;
+            --accent-hover: #b3d1ff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        h1 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: var(--text-main);
+            letter-spacing: -0.3px;
+        }
+
+        .details-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .value {
+            font-size: 0.925rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.15s ease;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        .logged-out {
+            text-align: center;
+            padding: 16px 0;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .return{
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .return-text a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.15s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Account Settings</h1>
+
+        {% if username %}
+            <div class="details-list">
+                <div class="detail-row">
+                    <span class="label">Username</span>
+                    <span class="value">{{ username }}</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Password</span>
+                    <span class="value">
+                        ••••••••
+                        <a href="{{ url_for('auth.change_password') }}">Change</a>
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Email</span>
+                    <span class="value">{{ email if email else "Not set" }}</span>
+                </div>
+            </div>
+        {% else %}
+            <div class="logged-out">
+                <p>You are not logged in.</p>
+                <p><a href="{{ url_for('auth.login') }}">Log in</a> to view your account.</p>
+            </div>
+
+            
+        {% endif %}
+
+        <div class="return">
+                <p class="return-text">
+                    <a href="{{url_for('base')}}">← Return to Home</a>
+                </p>
+            </div>
+    </div>
+
+</body>
+</html>
