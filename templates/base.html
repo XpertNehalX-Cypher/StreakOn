@@ -61,7 +61,7 @@
                 margin-top:40px;
                 align-self: center;
                 align-items: center;
-                gap: 15px; /* Spaces the button/text from the label */
+                gap: 15px; 
             }
 
             .container h4 {
@@ -181,7 +181,6 @@
                 transform: scale(1.05);
             }
 
-            /* Selected Challenge Text Style */
             .challenge-selection {
                 background-color: rgba(255, 255, 255, 0);
                 color: #ffe066;
@@ -260,25 +259,21 @@
             box-shadow: 0 8px 20px rgba(189, 91, 255, 0.55); 
             }
 
-            /* Triggers the light beam across the button on hover */
             .btn-check .cta-btn:not(:disabled):hover::before {
             animation: sweep 0.8s ease-in-out forwards;
             }
 
-            /* Tactile click feedback */
             .btn-check .cta-btn:not(:disabled):active {
             transform: translateY(1px) scale(0.98);
             box-shadow: 0 4px 6px rgba(189, 91, 255, 0.3);
             }
 
-            /* Disabled State Structure (Freezes hover animations during your 2-hour wait) */
             .btn-check .cta-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             box-shadow: none;
             }
 
-            /* Global Keyframes for the Light Sweep */
             @keyframes sweep {
             0% {
                 left: -150%;
@@ -288,7 +283,6 @@
             }
             }
 
-            /* System Accessibility Override for Reduced Motion Users */
             @media (prefers-reduced-motion: reduce) {
             .btn-check .cta-btn, 
             .btn-check .cta-btn::before {
@@ -416,7 +410,6 @@
             <h2>Welcome, <span>{{username}}!</span></h2>
             <h4>Today's Discipline, Tomorrow's Success</h4>
             
-            <!-- This is your main challenge box wrapper -->
             <div class="box-challenge">
                 <div class="box">
                     <h3>Today's Challenge:
@@ -619,22 +612,17 @@
         }
 
         function generateChallenge() {
-    // 1. Fetch backend route to save the revealed timestamp in your database/session
     fetch('/reveal', { method: 'POST' })
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                // 2. Hide the reveal button
                 document.getElementById("reveal-btn").style.display = "none";
 
-                // 3. Display the challenge text
                 renderChallengeText(getChallengeText());
 
-                // 4. Show the wait/done button and start the 2-hour lock check
                 const doneBtn = document.getElementById("myButton");
                 doneBtn.style.display = "block";
                 
-                // Set the initial revealedAt timestamp from the server response
                 checkLockStatus(data.revealed_at, doneBtn);
             } else {
                 alert(data.error || "Failed to reveal challenge.");

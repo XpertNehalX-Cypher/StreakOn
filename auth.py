@@ -54,13 +54,8 @@ def register():
 
     return render_template("register.html")
 
-# Add this route to your auth.py file
-
-# Place this inside auth.py
-
 @auth_bp.route("/change-password", methods=["GET", "POST"])
 def change_password():
-    # Require authentication
     if "username" not in session:
         return redirect("/login")
 
