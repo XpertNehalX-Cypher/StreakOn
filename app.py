@@ -12,7 +12,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev-fallback-key")
-
+app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(days=21)
 app.register_blueprint(auth_bp)
 
 init_db()
@@ -21,6 +21,7 @@ init_db()
 # ─── Routes ─────────────────────────────────────────────────────────────────
 @app.route("/")
 def index():
+    session["username"] = username
     logged_in = "username" in session
     return render_template("index.html", logged_in=logged_in)
 
