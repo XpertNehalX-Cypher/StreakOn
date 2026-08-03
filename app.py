@@ -21,7 +21,6 @@ init_db()
 # ─── Routes ─────────────────────────────────────────────────────────────────
 @app.route("/")
 def index():
-    session["username"] = username
     logged_in = "username" in session
     return render_template("index.html", logged_in=logged_in)
 
